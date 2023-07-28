@@ -1,0 +1,53 @@
+using System;
+
+using System.Collections.Generic;
+
+using System.IO;
+
+using System.Linq;
+
+using System.Text;
+
+using System.Threading.Tasks;
+
+
+
+namespace CopyApp01
+
+{
+
+    internal class Program
+
+    {
+
+        static void Main(string[] args)
+
+        {
+
+            string path = "C:\\Users\\Admin\\Desktop\\A.txt";
+
+            string path2 = "C:\\Users\\Admin\\Desktop\\B.txt";
+
+            using (Stream s = new FileStream(path, FileMode.Create))
+
+            {
+
+                using(StreamWriter sw = new StreamWriter(s))
+
+                {
+
+                    sw.WriteLine("sdadd");
+
+                }
+
+                File.Copy(path, path2);
+
+            }
+
+        }
+
+    }
+
+    //a파일 생성 후 값을 넣고 b파일 복제 생성
+
+}
