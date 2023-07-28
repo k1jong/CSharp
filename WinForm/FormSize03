@@ -1,0 +1,23 @@
+using System.Diagnostics;
+
+namespace FormSize03
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.MouseClick += UserMouseEvent;
+        }
+        private void UserMouseEvent(object sender, MouseEventArgs e)
+        {
+            Trace.WriteLine($"{e.Button} {e.X} {e.Y}");
+        }
+    }
+}
+
+// 데스크탑 방식
