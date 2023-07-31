@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WatchApp
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            int i=0;
+            await Task.Run(() =>
+            {
+                while (true)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        label1.Text = DateTime.Now.ToString();
+                    }));
+                    Thread.Sleep(10);
+                }
+
+            });
+            //Action time = () =>
+            //{
+            //    while (true)
+            //    {
+
+            //        label1.Text = DateTime.Now.ToString();
+            //        Thread.Sleep(1000);
+            //    }
+            //};
+
+            //Thread t1 = new Thread(new ThreadStart(time));
+            //t1.Start();
+
+        }
+    }
+}
+// 주석한게 내가 한거 문제점 : 출력이 메인에서 돌아가지 않음. 버튼을 누르면 새로운 스레드 생성 → 메모리 누수
