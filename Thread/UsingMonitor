@@ -1,0 +1,73 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Permissions;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace UsingMonitor
+{
+    class Counter
+    {
+        const int LOOP_COUNT = 1000;
+        readonly object thislock;
+
+        private int count;
+        public int Count
+        {
+            get { return count; }
+        }
+        public Counter()
+        {
+            this.count = 0;
+            thislock = new object();
+        }
+        public void Increase()
+        {
+            int loopCount = LOOP_COUNT;
+            while(loopCount-- > 0)
+            {
+                Monitor.Enter(thislock);
+                try
+                {
+                    count++;
+                }
+                finally { Monitor.Exit(thislock); }
+                Thread.Sleep(1);
+            }
+        }
+        public void Decrease()
+        {
+            int loopCount = LOOP_COUNT;
+            while(loopCount-- > 0)
+            {
+                Monitor.Enter(thislock);
+                try
+                {
+                    count--;
+                }
+                finally { Monitor.Exit(thislock); }
+                Thread.Sleep(1);
+            }
+        }
+
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Counter counter = new Counter();
+            Thread incThread = new Thread(counter.Increase);
+            Thread deccThread = new Thread(counter.Decrease);
+
+            incThread.Start();
+            deccThread.Start();
+
+            incThread.Join();
+            deccThread.Join();
+
+            Console.WriteLine(counter.Count);
+        }
+    }
+}
