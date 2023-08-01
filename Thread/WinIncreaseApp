@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WinIncreaseApp
+{
+    public partial class Form1 : Form
+    {
+        private int cnt;
+        private Thread t;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            t = new Thread(() =>
+            {
+                while (true)
+                {
+                    try
+                    {
+                        Invoke((Action)(() => label1.Text = (cnt++).ToString()));
+                        Thread.Sleep(1000);
+
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                        break;
+                    }
+
+                }
+            });
+            t.IsBackground = true;
+            t.Start();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //t.Suspend();
+            t.Interrupt();
+        }
+    }
+}
+
+//`Thread.Suspend` 메서드는 스레드를 일시 중지하는 데 사용되지만, 이 메서드는 사용되지 않습니다. 이 메서드는 스레드가 일시 중지될 때 임계 영역에 들어가거나 빠져나오는 경우 데드락을 일으킬 수 있기 때문입니다. 따라서 `Thread.Suspend` 메서드 대신 `Thread.Interrupt` 메서드를 사용하는 것이 좋습니다. `Thread.Interrupt` 메서드는 스레드가 `Wait`, `Join` 또는 `Sleep` 상태에 있을 때 예외를 발생시켜 스레드를 중단합니다. 이 방법은 스레드가 안전하게 중단될 수 있도록 합니다.
