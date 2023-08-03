@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SimpleTcpServer
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+            int port = 13003;
+
+            TcpListener server = new TcpListener(localAddr, port);
+
+            server.Start();
+            Console.WriteLine("Server Start");
+
+            using(TcpClient client = server.AcceptTcpClient()) // block I/O
+            {
+                Console.WriteLine("Connection Complete");
+
+                using(NetworkStream stream = client.GetStream()) //Write 대상 객체
+                {
+                    string response = "안녕";
+                    byte[] data = Encoding.UTF8.GetBytes(response);
+
+                    stream.Write(data, 0, data.Length);
+                    Console.WriteLine($"전송한 메시지 : {response}");
+                }
+            }
+
+            server.Stop();
+        }
+    }
+}
