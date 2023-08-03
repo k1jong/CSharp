@@ -7,31 +7,31 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleTcpClient
+namespace MyTcpClient
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            string server = "127.0.0.1"; //192.168.41.62
-            int port = 13000;
+            IPAddress addr = IPAddress.Parse("127.0.0.1");
+            int port = 13000;            
 
-            TcpClient client = new TcpClient(server, port);
+            TcpListener server = new TcpListener(addr, port);
+            server.Start();
+            Console.WriteLine("Server Start...");
 
-            using (NetworkStream stream = client.GetStream())
+            using(TcpClient client = server.AcceptTcpClient())
             {
-                byte[] data = new byte[1024];
-                using (FileStream fs = new FileStream(@"./b.png", FileMode.Create, FileAccess.Write))
+                Console.WriteLine("Conection..." );
+                using(NetworkStream stream = client.GetStream())
                 {
-                    int byteread;
-
-                    while((byteread = stream.Read(data, 0, data.Length)) > 0)
-                    {
-                        fs.Write(data, 0, byteread);
-                    }
+                    byte[] data = File.ReadAllBytes(@"./aaa.png");
+                    stream.Write(data, 0, data.Length);
                 }
+
             }
-            client.Close();
+
+            server.Stop();
 
         }
     }
