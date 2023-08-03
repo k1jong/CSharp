@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MyTcpServer
+{
+    internal class Program
+    {
+        static void multi(TcpClient client)
+        {
+            Console.WriteLine("Conection Complete");
+            using (NetworkStream stream = client.GetStream())
+            {
+                //Send Text
+                //Console.Write("Input Text : ");
+                //string res = Console.ReadLine();
+                //byte[] data = Encoding.UTF8.GetBytes(res);
+                //stream.Write(data, 0, data.Length);
+                stream.Write(File.ReadAllBytes(@"C:\Users\Admin\Desktop\asd.png"), 0, File.ReadAllBytes(@"C:\Users\Admin\Desktop\asd.png").Length);
+                Console.WriteLine("Send Compltete");
+            }
+            client.Close();
+        }
+        static void Main(string[] args)
+        {
+            IPAddress addr = IPAddress.Parse("127.0.0.1");
+            int port = 13000;
+
+            TcpListener server = new TcpListener(addr, port);   
+            server.Start();
+            Console.WriteLine("Server Open...");
+
+            while (true)
+            {
+                TcpClient client = server.AcceptTcpClient();
+
+                Task.Run(() => multi(client));
+            }
+
+            //using (TcpClient client = server.AcceptTcpClient())
+            //{
+            //    Console.WriteLine("Conection Complete");
+
+            //    using (NetworkStream stream = client.GetStream())
+            //    {
+            //        //Send Text
+            //        //Console.Write("Input Text : ");
+            //        //string res = Console.ReadLine();
+            //        //byte[] data = Encoding.UTF8.GetBytes(res);
+            //        //stream.Write(data, 0, data.Length);
+            //        stream.Write(File.ReadAllBytes(@"C:\Users\Admin\Desktop\asd.png"), 0, File.ReadAllBytes(@"C:\Users\Admin\Desktop\asd.png").Length);
+            //        Console.WriteLine("Send Compltete");
+            //    }
+            //}
+
+            server.Stop();
+            Console.WriteLine("Close Server");
+
+        }
+    }
+}
