@@ -1,0 +1,119 @@
+//JSON 방식 : 1024 넘으면 깨짐
+//서버
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace WinTcpServer01
+{
+    public class MyData
+    {
+        public string TextBox1 { get; set; }
+        public string TextBox2 { get; set; }
+    }
+
+
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            IPAddress addr = IPAddress.Parse("127.0.0.1");
+            int port = 13000;
+
+            TcpListener server = new TcpListener(addr, port);
+            server.Start();
+
+            while(true)
+            {
+                TcpClient client = await server.AcceptTcpClientAsync();
+                Task.Run(() => mul(client));
+            }
+
+           
+        }
+
+        private async void mul(TcpClient client)
+        {
+            using (NetworkStream stream = client.GetStream())
+            {
+                string jsonString = "";
+                byte[] data = new byte[1024];
+                int byteread;
+                while ((byteread = stream.Read(data, 0, data.Length)) > 0)
+                {
+                    jsonString = Encoding.UTF8.GetString(data, 0, byteread);
+                    MyData obj = System.Text.Json.JsonSerializer.Deserialize<MyData>(jsonString);
+                    int arg1 = int.Parse(obj.TextBox1);
+                    int arg2 = int.Parse(obj.TextBox2);
+
+                    richTextBox1.AppendText((arg1 + arg2).ToString());
+                }
+            }
+        }
+    }
+}
+//클라이언트
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace WinTcpClient01
+{
+    public class MyData
+    {
+        public string TextBox1 { get; set; }
+        public string TextBox2 { get; set; }
+
+    }
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MyData data = new MyData
+            {
+                TextBox1 = textBox1.Text,
+                TextBox2 = textBox2.Text
+            };
+            TcpClient client = new TcpClient("127.0.0.1",13000);
+
+            using(NetworkStream stream = client.GetStream())
+            {
+                string jsonString = System.Text.Json.JsonSerializer.Serialize(data);
+                byte[] message = Encoding.UTF8.GetBytes(jsonString);
+                stream.Write(message, 0, message.Length);
+            }
+        }
+    }
+}
+
+//문제점 : 1024가 넘으면 깨짐
