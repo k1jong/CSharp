@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,tr,td{
+            border: solid red 2px;
+            border-collapse: collapse;
+            padding: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        이름 : <input type="text" name="name"> <br>
+        나이 : <input type="text" name="age"> <br>
+        패스워드 : <input type="password"> <p>
+        개인 정보 : <input type="radio" name="info" checked> &nbsp;&nbsp;공개
+                   <input type="radio" name="info" >&nbsp;&nbsp;비공개<br>
+        취미 : <input type="checkbox" name="hobby" checked>등산
+               <input type="checkbox" name="hobby">독서
+               <input type="checkbox" name="hobby" checked>영화 감상
+               <input type="checkbox" name="hobby">음악 감상
+        <table>
+            <tr>
+                <td>이름</td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>나이</td>
+                <td><input type="text" name="age"> </td>
+            </tr>
+            <tr>
+                <td>패스워드</td>
+                <td><input type="password" name="password"> </td>
+            </tr>
+        </table>
+        <p></p>
+        이메일 : <input type="text" width="100">@
+        <select>
+            <option>선택</option>
+            <option>daum.net</option>
+            <option>naver.com</option>
+            <option>gmail.com</option>
+            <option>직접 입력</option>
+        </select>
+<p></p>
+        내용 : <textarea rows="10" cols="30">
+
+        </textarea>
+    </form>
+</body>
+</html>
