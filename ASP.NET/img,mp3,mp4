@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>뉴진스</h1>
+    
+    <img src="../img/뉴진스.jpg" width="" title="뉴진스">
+
+    <img src="/html/img/뉴진스2.jpg" width="" title="아이돌">
+
+    <img src="https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg.theqoo.net%2Fimg%2FXJZOd.jpg&type=a340" width="">
+    <p></p>
+    <audio src="../img/y2mate.com - NewJeans 뉴진스 ETA Official MV Performance ver_64kbps.mp3" controls></audio>
+    <p></p>
+    <video width="" height="" controls>
+        <source src="../img/y2mate.com - NewJeans 뉴진스 ETA Official MV Performance ver_360p.mp4" type="video/mp4">
+    </video>
+</body>
+</html>
