@@ -1,0 +1,43 @@
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+
+//App 초기화 후 설정
+app.UseRouting();
+
+//app.MapGet("/hi", () => "Hi 입니다. ");
+
+//app.MapGet("/Home", () => "Hello World    || GET");
+
+//app.MapPost("/Home", () =>"Hello World    || POST");
+
+//app.MapPut("/Home", () => "Hello World    || PUT");
+
+//app.MapDelete("/Home", () => "Hello World    || DELETE");
+
+//app.Run(async (HttpContext context) =>
+//{
+//    context.Response.ContentType = "text/plain; charset=utf-8 ";
+//    await context.Response.WriteAsync("메인 페이지임");
+//});
+
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGet("/Home", async (context) =>
+    {
+        context.Response.ContentType = "text/plain; charset=utf-8 ";
+        await context.Response.WriteAsync("메인 페이지임");
+    });
+    endpoints.MapPost("/Home", async(context)=>{
+        await context.Response.WriteAsync("POST");
+    });
+    endpoints.MapPut("/Home", async (context) => {
+        await context.Response.WriteAsync("PUT");
+    });
+    endpoints.MapDelete("/Home", async (context) => {
+        await context.Response.WriteAsync("DELETE");
+    });
+});
+
+app.Run();
