@@ -1,0 +1,26 @@
+using System.Runtime.InteropServices;
+
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+//app.MapGet("/", () => "Hello World!");
+
+app.Use(async (contect, next) =>
+{
+    contect.Response.ContentType = "text/plain; charset=utf-8";
+    await contect.Response.WriteAsync("MainPage 입니다.\n");
+    await next(contect);
+});
+
+app.Use(async (contect,next) =>
+{
+    await contect.Response.WriteAsync("안녕하세요.\n");
+    await next(contect);
+});
+
+app.Run(async (contect) =>
+{
+    await contect.Response.WriteAsync("ASP.NET Core~~! 공부합시다. ");
+});
+
+app.Run();
