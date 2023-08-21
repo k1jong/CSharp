@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\WebEmpty_RegForm.props" />
+</Project>

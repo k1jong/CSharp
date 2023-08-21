@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "WebEmpty_RegForm/1.0.0": {
+        "runtime": {
+          "WebEmpty_RegForm.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "WebEmpty_RegForm/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

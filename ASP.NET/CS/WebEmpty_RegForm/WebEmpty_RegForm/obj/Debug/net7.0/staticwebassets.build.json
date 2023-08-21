@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "Hash": "Oplx5vVdev1d7t1SClij8Mn8fzJCSXJAqYeS4oBC/+M=",
+  "Source": "WebEmpty_RegForm",
+  "BasePath": "_content/WebEmpty_RegForm",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "WebEmpty_RegForm\\wwwroot",
+      "Source": "WebEmpty_RegForm",
+      "ContentRoot": "C:\\Users\\Admin\\source\\repos\\WebEmpty_RegForm\\WebEmpty_RegForm\\wwwroot\\",
+      "BasePath": "_content/WebEmpty_RegForm",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\Admin\\source\\repos\\WebEmpty_RegForm\\WebEmpty_RegForm\\wwwroot\\regform.html",
+      "SourceId": "WebEmpty_RegForm",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Admin\\source\\repos\\WebEmpty_RegForm\\WebEmpty_RegForm\\wwwroot\\",
+      "BasePath": "_content/WebEmpty_RegForm",
+      "RelativePath": "regform.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\regform.html"
+    }
+  ]
+}

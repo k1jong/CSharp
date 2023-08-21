@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Admin\\source\\repos\\WebEmpty_RegForm\\WebEmpty_RegForm\\wwwroot\\regform.html",
+      "PackagePath": "staticwebassets\\regform.html"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.WebEmpty_RegForm.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.WebEmpty_RegForm.props",
+      "PackagePath": "build\\WebEmpty_RegForm.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.WebEmpty_RegForm.props",
+      "PackagePath": "buildMultiTargeting\\WebEmpty_RegForm.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.WebEmpty_RegForm.props",
+      "PackagePath": "buildTransitive\\WebEmpty_RegForm.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
