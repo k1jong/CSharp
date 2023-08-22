@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "BMI";
+}
+
+<h1>적정 몸무게 구하기</h1>
+<form method="post">
+
+    <label>당신의 키를 입력해 주세요. </label><br />
+    <input type="number" id="he" name="he" /><br />
+    <label>당신의 몸무게를 입력해 주세요.</label><br />
+    <input type="number" id="kg" name="kg" /><br />
+    <label>당신의 성별을 입력해 주세요 (남성/여성)</label><br />
+    <input type="text" id="se" name="se" /><br />
+    <input type="submit" value="계산하기" />
+</form>
+
+@if (ViewBag.result1 != null)
+{
+    <h3>당신은 @ViewBag.result1 입니다. </h3>
+}
+
