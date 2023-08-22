@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<form method="post">
+    <h1>Day계산기</h1>
+    <label>여자(남자)친구와 만난 날</label><br />
+    <input type="date" id="start" name="start"/><br />
+    <label>특정 날짜의 날</label><br />
+    <input type="date" id="last" name="last" /><br />
+    <input type="submit" value="계산하기" />
+</form>
+
+@if (ViewBag.Result != null)
+{
+    <h3>만난지 @ViewBag.Result 일이 되는 날입니다. </h3>
+}
+
+
+

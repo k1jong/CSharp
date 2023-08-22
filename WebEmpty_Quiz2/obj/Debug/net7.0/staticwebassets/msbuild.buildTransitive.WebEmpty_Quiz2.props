@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\WebEmpty_Quiz2.props" />
+</Project>

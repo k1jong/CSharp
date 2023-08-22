@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\WebEmpty_Quiz2.props" />
+</Project>
