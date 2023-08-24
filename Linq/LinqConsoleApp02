@@ -1,0 +1,38 @@
+namespace LinqConsoleApp02
+{
+	class Profile
+	{
+		public string Name { get; set; }
+		public int Height { get; set; }
+	}
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			Profile[] arr =
+			{
+				new Profile() {Name="정우성",Height=186},
+				new Profile() {Name="김태희",Height=158},
+				new Profile() {Name="고현정",Height=172},
+				new Profile() {Name="이문세",Height=178},
+				new Profile() {Name="하하",Height=171}
+			};
+
+			//var arrs = from n in arr
+			//		   where n.Height < 175
+			//		   orderby n.Height
+			//		   select n;
+
+			var arrs = from n in arr
+					   where n.Height >= 178
+					   orderby n.Height
+					   select n;
+
+
+			foreach (var n in arrs)
+			{
+				Console.WriteLine($"{n.Name} {n.Height} ");
+			}
+		}
+	}
+}
