@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    // var st = ViewData["data1"] as Student;
+    var students = ViewData["data1"] as List<Student>;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+@* 
+<div>
+    <h2>@st.Id</h2>
+    <h2>@st.Name</h2>
+    <h2>@st.HP</h2>
+    <h2>@st.Major</h2>
+</div> *@
+
+@* <div >
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>전공</th>
+        </tr>
+        @foreach (var i in students)
+        {
+            <tr>
+                <td>@i.Id</td>
+                <td>@i.Name</td>
+                <td>@i.HP</td>
+                <td>@i.Major</td>
+            </tr>
+        }
+    </table>
+</div> *@
