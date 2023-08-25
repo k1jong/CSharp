@@ -1,0 +1,80 @@
+using Microsoft.EntityFrameworkCore;
+
+namespace EmptyFramework
+{
+	public class Student
+	{
+		public int No { get; set; }
+		public string Name { get; set; }
+		public string Major { get; set; }
+		public string Hometown { get; set; }
+	}
+	public class Studentcontext : DbContext
+	{
+		public DbSet<Student> Student { get; set; }
+
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			optionsBuilder.UseOracle("User Id=c##scott;Password=tiger;Data Source=127.0.0.1/XE;");
+		}
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Student>().HasKey(p=>p.No);
+			modelBuilder.Entity<Student>().Property(p=>p.Name).HasMaxLength(20);
+			modelBuilder.Entity<Student>().Property(p=>p.Major).HasMaxLength(20);
+			modelBuilder.Entity<Student>().Property(p => p.Hometown).HasMaxLength(20);
+		}
+	}
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+			using(var context = new Studentcontext())
+			{
+				//context.Database.EnsureDeleted();
+				//context.Database.EnsureCreated();
+				//Console.Write("DB 테이블이 생성됨..");
+
+				//var students = new List<Student>
+				//{
+				//	new Student{ No=100,Name="홍길동",Major="컴공",Hometown="안동"},
+				//	new Student{ No=200,Name="이순신",Major="정통",Hometown="통영"},
+				//	new Student{ No=300,Name="강감찬",Major="기계",Hometown="개성"},
+				//	new Student{ No=400,Name="을지문덕",Major="멀티",Hometown="서울"}
+				//};
+
+				//context.Student.AddRange(students);
+				//context.SaveChanges();
+				//Console.WriteLine("데이터 삽입 성공...");
+
+				var PersonToEdit = context.Student.FirstOrDefault(p => p.No == 100);
+
+				if (PersonToEdit != null)
+				{
+					PersonToEdit.Name = "이성계";
+					PersonToEdit.Major = "화학";
+
+					context.SaveChanges();
+					Console.WriteLine("데이터 수정 완료");
+				}
+				else
+				{
+					Console.WriteLine("해당 데이터가 없습니다. ");
+				}
+				PersonToEdit = null;
+				PersonToEdit = context.Student.FirstOrDefault(p => p.Name == "을지문덕");
+				if(PersonToEdit != null)
+				{
+					context.Student.Remove(PersonToEdit);
+
+					context.SaveChanges();
+					Console.WriteLine("데이터 삭제 완료");
+				}
+				else
+				{
+					Console.WriteLine("해당 데이터가 없습니다. ");
+				}
+			}
+		}
+	}
+}
