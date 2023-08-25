@@ -1,0 +1,348 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Options;
+using System;
+using System.Security.Cryptography;
+
+namespace BMS
+{
+	internal class Program
+	{
+		static void Main(string[] args)
+		{
+
+            var conbook = new conBook();
+            int id = conbook.getId();
+            conbook.showCat();
+                while (true)
+				{
+                    conbook.showMenu();
+					Console.Write("원하시는 기능의 숫자를 입력하세요 : ");
+					int a = int.Parse(Console.ReadLine());
+
+					switch (a)
+					{
+						case 1:
+							Console.WriteLine("도서 모두보기 기능을 선택하셨습니다. ");
+                            Console.WriteLine("-----------------");
+                            conbook.showAllBook();
+                            break;
+                        case 2:
+                        Console.WriteLine("도서 검색하기 기능을 선택하셨습니다. ");
+                        Console.WriteLine("-----------------");
+                        conbook.serchBook();
+                        break;
+                        case 3:
+                            Console.WriteLine("도서 추가하기 기능을 선택하셨습니다. ");
+                            Console.WriteLine("-----------------");
+                            conbook.insertBook(++id);
+                            
+                            break;
+                        case 4:
+                            Console.WriteLine("도서 수정하기 기능을 선택하셨습니다. ");
+                            Console.WriteLine("-----------------");
+                            conbook.updateBook();
+                            break;
+                        case 5:
+                            Console.WriteLine("도서 삭제하기 기능을 선택하셨습니다.");
+                            Console.WriteLine("-----------------");
+                            conbook.delBook();
+                            break;
+
+                        case 6:
+                            Console.WriteLine("도서 대출하기 기능을 선택하셨습니다.");
+                            Console.WriteLine("-----------------");
+                            conbook.borBook();
+                            break;
+                        case 7:
+                            Console.WriteLine("도서 반납하기 기능을 선택하셨습니다.");
+                            Console.WriteLine("-----------------");
+                            conbook.returnBook();
+                            break;
+                        case 8:
+                            Console.WriteLine("시스템을 종료합니다.");
+                            Environment.Exit(0);
+                            break;
+                    default:
+							Console.WriteLine("올바른 기능을 입력해주세요. ");
+                            Console.WriteLine("-----------------");
+                            break;
+					}
+				}
+			}
+    }
+    class conBook
+    {
+        public void showCat()
+        {
+            Console.Write("＼　　ヽ　　　　i　　|　　　　 /　　　/　\r\n　　　＼　\r\n도서 관리 시스템!\r\n　　　　　　　　　　　　　　;' ':;,　　 　　　 ,;'':;,\r\n　　　　　　　　　　　　　;'　　 ':;,.,..,,,;'　　　';,\r\n　　ー　　　　　　　　 ,:'　　　　　　　　 　　　　::::::::､\r\n　_＿　　　　　　　　,:' ／ 　 　　　　＼ 　　　　　::::::::',\r\n　　　　　二　　　　:'　 ●　　　　　 ●　 　　　　　　::::::::i.\r\n　　￣　　　　　　　i　'''　(_人__)　　''''　　 ::::::::::i\r\n　　　　-‐　　　　　 :　 　　　　　　　　　 　　　　　::::::::i\r\n　　　　　　　　　　　`:,､ 　　　　　 　 　　　 :::::::::: /\r\n　　　　／　　　　　　 ,:'　　　　　　　 : ::::::::::::｀:､\r\n　　　　　　　　　　　 ,:'　　　　　　　　 : : ::::::::::｀:､");
+            Console.WriteLine("");
+        }
+        public void showMenu()
+        {
+            Console.WriteLine("-----------------");
+            Console.WriteLine("1. 도서 모두보기");
+            Console.WriteLine("2. 도서 검색하기");
+            Console.WriteLine("3. 도서 추가하기");
+            Console.WriteLine("4. 도서 수정하기");
+            Console.WriteLine("5. 도서 삭제하기");
+            Console.WriteLine("6. 도서 대출하기");
+            Console.WriteLine("7. 도서 반납하기");
+            Console.WriteLine("8. 시스템 종료");
+            Console.WriteLine("-----------------");
+        }
+        public int getId()
+        {
+            int id = 0;
+            using (var context = new BookContext())
+            {
+                var book = context.Books.ToList();
+                foreach (var item in book)
+                {
+                    if(item.Id > id)
+                        id = item.Id;
+                }
+            }
+            return id;
+        }
+        public void serchBook()
+        {
+            Console.Write("검색을 원하시는 도서 제목을 입력하세요.");
+            string title = Console.ReadLine();
+            using (var context = new BookContext())
+            {
+                var serBook = context.Books.FirstOrDefault(p => p.Title == title);
+                if (serBook != null)
+                {
+                    Console.WriteLine($"{"ID",-5} " +
+                                      $"{"제목",-20} " +
+                                      $"{"저자",-20} " +
+                                      $"{"가격",-10} " +
+                                      $"{"상태",-10} " +
+                                      $"{"발행일자",-10} " +
+                                      $"{"페이지 수",-5} " +
+                                      $"{"카테고리",-10}");
+                    Console.WriteLine("-----------------");
+                    string state;
+
+                        state = serBook.State == 0 ? "대여가능" : "대여불가";
+                        Console.WriteLine($"{serBook.Id,-5} " +
+                                          $"{serBook.Title,-20} " +
+                                          $"{serBook.Writer,-20} " +
+                                          $"{serBook.Price,-10} " +
+                                          $"{state,-10} " +
+                                          $"{serBook.Issuedate,-10} " +
+                                          $"{serBook.Pages,-5} " +
+                                          $"{serBook.Category,-10}");
+                    
+                }
+            }
+        }
+        public void showAllBook()
+        {
+            using(var context = new BookContext())
+            {
+                Console.WriteLine($"{"ID",-5} " +
+                  $"{"제목",-20} " +
+                  $"{"저자",-20} " +
+                  $"{"가격",-10} " +
+                  $"{"상태",-10} " +
+                  $"{"발행일자",-10} " +
+                  $"{"페이지 수",-5} " +
+                  $"{"카테고리",-10}");
+                Console.WriteLine("-----------------");
+
+                //var serchbooks = context.Books.ToList();
+
+                //var sortserchbooks = from book in serchbooks
+                //                     orderby book.Id
+                //                     select book;
+
+                var sortserchbooks = context.Books.OrderBy(book => book.Id).ToList();
+                string state;
+                foreach (var i in sortserchbooks)
+                {
+                    state = i.State == 0 ? "대여가능" : "대여불가";
+                    Console.WriteLine($"{i.Id,-5} " +
+                                      $"{i.Title,-20} " +
+                                      $"{i.Writer,-20} " +
+                                      $"{i.Price,-10} " +
+                                      $"{state,-10} " +
+                                      $"{i.Issuedate,-10} " +
+                                      $"{i.Pages,-5} " +
+                                      $"{i.Category,-10}");
+                }
+            }
+        }
+        public void insertBook(int id)
+        {
+            using (var context = new BookContext())
+            {
+                Console.Write("제목을 입력해주세요 : ");
+                string title = Console.ReadLine();
+                Console.Write("저자를 입력해주세요 : ");
+                string writer = Console.ReadLine();
+                Console.Write("가격을 입력해주세요 : ");
+                int price = int.Parse(Console.ReadLine());
+                Console.Write("발행일자를 입력해주세요 : ");
+                string issuedate = Console.ReadLine();
+                Console.Write("페이지 수를 입력해주세요 : ");
+                int page = int.Parse(Console.ReadLine());
+                Console.Write("카테고리를 입력해주세요 : ");
+                string category = Console.ReadLine();
+
+                var newbook = new Book { Id = id++, Title = title, Writer = writer, Price = price, State = 0, Issuedate = issuedate, Pages = page, Category = category };
+                context.Books.Add(newbook);
+                context.SaveChanges();
+                Console.WriteLine("새로운 책 정보 입력 완료");
+                Console.WriteLine();
+                Console.WriteLine("-----------------");
+                Console.WriteLine();
+            }
+        }
+
+        public void updateBook()
+        {
+            using (var context = new BookContext())
+            {
+                Console.Write("수정할 책의 이름을 입력하세요");
+                string title1 = Console.ReadLine();
+                var serchBook = context.Books.FirstOrDefault(p => p.Title == title1);
+                if (serchBook != null)
+                {
+                    Console.Write("제목을 입력해주세요 : ");
+                    string title = Console.ReadLine();
+                    Console.Write("저자를 입력해주세요 : ");
+                    string writer = Console.ReadLine();
+                    Console.Write("가격을 입력해주세요 : ");
+                    int price = int.Parse(Console.ReadLine());
+                    Console.Write("발행일자를 입력해주세요 : ");
+                    string issuedate = Console.ReadLine();
+                    Console.Write("페이지 수를 입력해주세요 : ");
+                    int page = int.Parse(Console.ReadLine());
+                    Console.Write("카테고리를 입력해주세요 : ");
+                    string category = Console.ReadLine();
+
+                    serchBook.Title = title;
+                    serchBook.Writer = writer;
+                    serchBook.Price = price;
+                    serchBook.Issuedate = issuedate;
+                    serchBook.Pages = page;
+                    serchBook.Category = category;
+
+                    context.SaveChanges();
+                    Console.WriteLine("정보 수정 성공");
+                    Console.WriteLine("-----------------");
+                }
+                else
+                {
+                    Console.WriteLine("해당 책 제목이 존재하지 않습니다. 다시 확인해주세요.");
+                    Console.WriteLine("-----------------");
+                }
+            }
+        }
+
+        public void delBook()
+        {
+            using (var context = new BookContext()) {
+                Console.Write("삭제할 책의 이름을 입력하세요");
+                string title1 = Console.ReadLine();
+                var deleteBook = context.Books.FirstOrDefault(p => p.Title == title1);
+                if (deleteBook != null)
+                {
+                    context.Books.Remove(deleteBook);
+
+                    context.SaveChanges();
+                    Console.WriteLine($"{title1} 삭제 완료하였습니다. ");
+                }
+                else
+                {
+                    Console.WriteLine($"{title1}이 존재하지 않습니다. ");
+                }
+            }
+        }
+
+        public void borBook()
+        {
+            using (var context = new BookContext()) {
+                Console.Write("대출할 책의 이름을 입력하세요 : ");
+                string title1 = Console.ReadLine();
+                var borrowBook = context.Books.FirstOrDefault(p => p.Title == title1);
+                if (borrowBook != null)
+                {
+                    if (borrowBook.State == 0)
+                    {
+                        borrowBook.State = 1;
+                        context.SaveChanges();
+                        Console.WriteLine($"{title1}을 대출하였습니다.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{title1}은 현재 대출 중 입니다. ");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{title1}이 존재하지 않습니다. ");
+                }
+            }
+        }
+
+        public void returnBook()
+        {
+            using (var context = new BookContext())
+            {
+                Console.Write("반납할 책의 이름을 입력하세요 : ");
+                string title1 = Console.ReadLine();
+                var returnBook = context.Books.FirstOrDefault(p => p.Title == title1);
+                if (returnBook != null)
+                {
+                    if (returnBook.State == 1)
+                    {
+                        returnBook.State = 0;
+                        context.SaveChanges();
+                        Console.WriteLine($"{title1}을 반납하였습니다.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{title1}은 이미 반납하였습니다.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{title1}이 존재하지 않습니다. ");
+                }
+            }
+        }
+    }
+
+    public class Book
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Writer { get; set; }
+        public int Price { get; set; }
+        public int State { get; set; }
+        public string Issuedate { get; set; }
+        public int Pages { get; set; }
+        public string Category { get; set; }
+    }
+    public class BookContext : DbContext
+    {
+        public DbSet<Book> Books { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseOracle("User Id=c##scott;Password=tiger;Data Source=127.0.0.1/XE;");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>().HasKey(x => x.Id);
+            modelBuilder.Entity<Book>().Property(x => x.Title).HasMaxLength(9);
+            modelBuilder.Entity<Book>().Property(x => x.Writer).HasMaxLength(10);
+            modelBuilder.Entity<Book>().Property(x => x.Issuedate).HasMaxLength(20);
+            modelBuilder.Entity<Book>().Property(x => x.Category).HasMaxLength(20);
+        }
+
+    }
+}
