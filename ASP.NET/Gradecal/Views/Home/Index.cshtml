@@ -1,0 +1,43 @@
+﻿@model Calculator.Models.Grade
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>성적 계산기</h1>
+<br />
+<hr />
+<br />
+<div class="container">
+    <div class="col-sm-4">
+        <form method="post" asp-action="Result">
+            <label asp-for="Kor">국어 성적은?</label>
+            <select asp-for="Kor" class="form-control" asp-items="Html.GetEnumSelectList<GradeType>()">
+                <option>성적을 선택해주세요. </option>
+            </select>
+
+            <label asp-for="Eng">영어 성적은?</label>
+            <select asp-for="Eng" class="form-control" asp-items="Html.GetEnumSelectList<GradeType>()">
+                <option>성적을 선택해주세요. </option>
+            </select>
+
+            <label asp-for="Math">수학 성적은?</label>
+            <select asp-for="Math" class="form-control" asp-items="Html.GetEnumSelectList<GradeType>()">
+                <option>성적을 선택해주세요. </option>
+            </select>
+
+            <label asp-for="Sci">과학 성적은?</label>
+            <select asp-for="Sci" class="form-control" asp-items="Html.GetEnumSelectList<GradeType>()">
+                <option>성적을 선택해주세요. </option>
+            </select>
+
+            <label asp-for="His">사회 성적은?</label>
+            <select asp-for="His" class="form-control" asp-items="Html.GetEnumSelectList<GradeType>()">
+                <option>성적을 선택해주세요. </option>
+            </select>
+
+            <br />
+            <input type="submit" value="성적 계산하기"/>
+
+        </form>
+    </div>
+</div>
