@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Report.Models.Reporter>
+
+@{
+    ViewData["Title"] = "Chart";
+}
+
+<h1>Chart</h1>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+<canvas id="myChart" width="400" height="400"></canvas>
+
+<script>
+    // Convert the `Result` values to a JSON array
+    var Result = @Html.Raw(Json.Serialize(Model.Select(r => r.result)));
+    var Title = @Html.Raw(Json.Serialize(Model.Select(r => r.Title)));
+
+
+    var chartArea = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(chartArea, {
+        type: 'line',
+        data: {
+            labels: Title,
+            datasets: [{
+                label: '결과값',
+                data: Result, // Use the `Result` array here
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
